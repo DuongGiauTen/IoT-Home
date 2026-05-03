@@ -10,7 +10,7 @@ void startAP()
 {
     Serial.println("\n[WIFI] Khong co data -> Dang khoi tao AP Mode...");
     WiFi.mode(WIFI_AP);
-    bool success = WiFi.softAP("YOLO_UNO_SETUP", "12345678"); 
+    bool success = WiFi.softAP("YOLO_UNO_SETUP_NODE1", "12345678"); 
     
     if (success) {
         Serial.print("[WIFI] Phat mang THANH CONG! AP IP: ");
@@ -78,7 +78,7 @@ void startSTA()
 
             // ===  CHUYỂN HẲN SANG WIFI_AP VÀ ÉP KÊNH 1 ===
             WiFi.mode(WIFI_AP); 
-            WiFi.softAP("YOLO_UNO_SETUP", "12345678", 1);
+            WiFi.softAP("YOLO_UNO_SETUP_NODE1", "12345678", 1);
             
             Serial.print(">> AP IP de cuu ho: ");
             Serial.println(WiFi.softAPIP());
