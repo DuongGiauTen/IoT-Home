@@ -3,7 +3,7 @@
 
 DHT20 dht20;
 // Đã CHUYỂN phần khai báo LCD sang file của Task LCD để code gọn gàng hơn
-
+int counter = 0;
 void temp_humi_monitor(void *pvParameters){
     //Wire.begin(11, 12);
     dht20.begin();
@@ -59,6 +59,15 @@ void temp_humi_monitor(void *pvParameters){
             }
 
         }
+
+        counter++;
+        if (counter >= 15) {
+            // Simulate anomaly every 15 readings
+            set_sensor_data(100.0, 100.0); // Simulate anomaly
+            vTaskDelay(pdMS_TO_TICKS(1000)); // Wait a bit before resetting the counter
+            counter = 0;
+        }
+
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }

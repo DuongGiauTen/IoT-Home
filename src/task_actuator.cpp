@@ -73,7 +73,7 @@ void taskActuator_Execution(void *pvParameters)
             }
 
             
-            if (millis() - last_servo_turn > 10000)
+            if (millis() - last_servo_turn > 30000)
             {
                 last_servo_turn = millis();
                 
