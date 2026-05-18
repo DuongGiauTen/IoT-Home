@@ -78,7 +78,7 @@ void startSTA()
 
             // ===  CHUYỂN HẲN SANG WIFI_AP VÀ ÉP KÊNH 1 ===
             WiFi.mode(WIFI_AP); 
-            WiFi.softAP("YOLO_UNO_SETUP", "12345678", 1);
+            WiFi.softAP("YOLO_UNO_SETUP_SERVER", "12345678", 1);
             
             Serial.print(">> AP IP de cuu ho: ");
             Serial.println(WiFi.softAPIP());
