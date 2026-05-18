@@ -89,24 +89,50 @@ void startSTA()
     }
 }
 
+// bool Wifi_reconnect()
+// {
+//     // === NẾU ĐANG PHÁT AP CỨU HỘ THÌ KHÓA CHẾT, KHÔNG ĐI DÒ MẠNG ===
+//     // Việc này giúp Laptop quét mạng cực nhanh và kết nối không bao giờ rớt
+//     if (is_ap_fallback_active) {
+//         return false; 
+//     }
+
+//     if (WiFi.status() == WL_CONNECTED)
+//     {
+//         return true;
+//     }
+
+//     // Nếu rớt mạng và CHƯA bật AP, thì mới gọi startSTA() để xử lý
+//     // Rút ngắn thời gian kiểm tra rớt mạng xuống 30 giây cho nhạy
+//     if (millis() - last_wifi_check > 30000 || last_wifi_check == 0) {
+//         last_wifi_check = millis();
+//         startSTA(); 
+//     }
+//     return false;
+// }
+
 bool Wifi_reconnect()
 {
-    // === NẾU ĐANG PHÁT AP CỨU HỘ THÌ KHÓA CHẾT, KHÔNG ĐI DÒ MẠNG ===
-    // Việc này giúp Laptop quét mạng cực nhanh và kết nối không bao giờ rớt
-    if (is_ap_fallback_active) {
-        return false; 
-    }
-
     if (WiFi.status() == WL_CONNECTED)
     {
         return true;
     }
 
-    // Nếu rớt mạng và CHƯA bật AP, thì mới gọi startSTA() để xử lý
-    // Rút ngắn thời gian kiểm tra rớt mạng xuống 30 giây cho nhạy
+    // === TÍNH NĂNG BẢO VỆ NGƯỜI DÙNG ĐANG SETUP ===
+    // Nếu AP đang bật, thử kiểm tra xem có thiết bị nào đang kết nối vào không?
+    if (is_ap_fallback_active && WiFi.softAPgetStationNum() > 0) {
+        // Có điện thoại/laptop đang kết nối vào AP! 
+        // Liên tục reset lại đồng hồ 30s để không làm phiền quá trình Setup của họ.
+        last_wifi_check = millis();
+        return false; 
+    }
+
+    // Nếu KHÔNG có ai thèm kết nối vào AP, hoặc vừa bị rớt mạng
+    // Cứ mỗi 30 giây sẽ tự động quét mạng nhà 1 lần
     if (millis() - last_wifi_check > 30000 || last_wifi_check == 0) {
         last_wifi_check = millis();
         startSTA(); 
     }
+    
     return false;
 }
