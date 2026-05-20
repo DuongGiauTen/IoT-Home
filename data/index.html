@@ -110,34 +110,45 @@
 
 
 
- <div id="device" class="section" style="display: none;">
-            <div class="header">
-                <h2>Điều khiển Thiết bị</h2>
-                <p>Điều khiển độ sáng LED Neo và trạng thái chân GPIO 18</p>
-            </div>
-            
-            <div class="cards-container">
-                <div class="device-card">
-                    <i class="fa-solid fa-lightbulb device-icon" style="color: #FFC107;"></i>
-                    <h3>LED NEO Pixel</h3>
-                    <p>Độ sáng (GPIO 45)</p>
-                    <div class="slider-container">
-                        <input type="range" id="neoSlider" min="0" max="255" value="0" onchange="sendNeoBrightness(this.value)">
-                        <span id="neoValue">0</span>
-                    </div>
-                </div>
+<div id="device" class="section" style="display: none;">
+    <div class="header">
+        <h2>Điều khiển Thiết bị (Node 1)</h2>
+        <p>Chế độ Thủ công / Tự động & Cơ cấu chấp hành</p>
+    </div>
+    
+    <div class="cards-container">
+        <div class="device-card">
+            <i class="fa-solid fa-robot device-icon" style="color: #9C27B0;"></i>
+            <h3>Chế độ Hoạt động</h3>
+            <p>Auto / Manual</p>
+            <label class="switch">
+                <input type="checkbox" id="modeToggle" onchange="sendModeState(this.checked)">
+                <span class="slider round"></span>
+            </label>
+            <p id="modeStatus" style="font-weight: bold; margin-top: 10px; color: #9C27B0;">AUTO</p>
+        </div>
 
-                <div class="device-card">
-                    <i class="fa-solid fa-power-off device-icon" style="color: #4CAF50;"></i>
-                    <h3>Công tắc đèn</h3>
-                    <p>Trạng thái (GPIO 18)</p>
-                    <label class="switch">
-                        <input type="checkbox" id="gpio18Toggle" onchange="sendGpioState(this.checked)">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
+        <div class="device-card" id="neoCard" style="opacity: 0.5; pointer-events: none;">
+            <i class="fa-solid fa-lightbulb device-icon" style="color: #FFC107;"></i>
+            <h3>Đèn sưởi Neo</h3>
+            <p>Độ sáng (GPIO 45)</p>
+            <div class="slider-container">
+                <input type="range" id="neoSlider" min="0" max="255" value="0" onchange="sendNeoBrightness(this.value)">
+                <span id="neoValue">0</span>
             </div>
         </div>
+
+        <div class="device-card" id="servoCard" style="opacity: 0.5; pointer-events: none;">
+            <i class="fa-solid fa-rotate device-icon" style="color: #4CAF50;"></i>
+            <h3>Máy đảo trứng</h3>
+            <p>Góc quay (GPIO 38)</p>
+            <label class="switch">
+                <input type="checkbox" id="servoToggle" onchange="sendServoState(this.checked)">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+</div>
   </div> <script src="script.js"></script>
 </body>
 

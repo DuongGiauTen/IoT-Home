@@ -14,6 +14,7 @@ void lcd_display_task(void *pvParameters) {
         float current_humi = get_humidity();
         uint8_t temp_state = get_state_temp();
         uint8_t humi_state = get_state_humi();
+        bool is_auto = get_auto_mode();  //added
         
         // ==========================================
         // DÒNG 1: HIỂN THỊ GIÁ TRỊ (Ví dụ: T:25.5 H:60.2)
@@ -35,12 +36,11 @@ void lcd_display_task(void *pvParameters) {
         // DÒNG 2: HIỂN THỊ TRẠNG THÁI (Ví dụ: T:NORM  H:HIGH)
         // ==========================================
         
-        if (get_auto_mode()) {
-            lcd.setCursor(0, 1);
-            lcd.print("MODE: AUTO   ");
+        lcd.setCursor(0, 1);
+        if (is_auto) {
+            lcd.print("MODE:AUTO     "); // Thêm khoảng trắng để xóa chữ thừa cũ
         } else {
-            lcd.setCursor(0, 1);
-            lcd.print("MODE: MANUAL  ");
+            lcd.print("MODE:MANUAL   ");
         }
 
         // Trạng thái Nhiệt độ (Góc dưới bên trái, tối đa 8 ký tự)

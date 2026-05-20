@@ -57,26 +57,34 @@ void handleWebSocketMessage(String message)
     }
 
     // NẾU LÀ GÓI TIN ĐIỀU KHIỂN THIẾT BỊ
-    else if (page == "device")
+    else if (page == "device_control")
     {
-        JsonObject value = doc["value"];
-        String name = value["name"] | "";
-        String action = value["action"] | "";
+        String type = doc["type"] | "";
+        int value = doc["value"] | 0;
 
-        // --- BẬT/TẮT CÔNG TẮC ĐÈN (GPIO 18) ---
-        if (name == "GPIO18" && action == "toggle")
+        if (type == "mode")
         {
-            int state = value["state"] | 0;
-            digitalWrite(18, state ? HIGH : LOW);
-            Serial.printf(">> [WEB] Cong tac den (GPIO 18) -> %s\n", state ? "ON" : "OFF");
+            set_auto_mode(value == 1); // 1: Auto, 0: Manual
+            if (xSemaphoreTake(xSerialMutex, portMAX_DELAY)) {
+                Serial.printf(">> [WEB] Chuyen che do: %s\n", value == 1 ? "AUTO" : "MANUAL");
+                xSemaphoreGive(xSerialMutex);
+            }
         }
-
-        // --- ĐIỀU CHỈNH ĐỘ SÁNG NEO PIXEL ---
-        else if (name == "NEO" && action == "brightness")
+        else if (type == "neo_pwm")
         {
-            int level = value["level"] | 0;
-            set_neo_brightness(level); // Gửi vào kho shared_data
-            Serial.printf(">> [WEB] Do sang NEO Pixel -> %d\n", level);
+            set_heater_pwm(value);
+            if (xSemaphoreTake(xSerialMutex, portMAX_DELAY)) {
+                Serial.printf(">> [WEB] Chinh do sang NeoPixel (Heater): %d\n", value);
+                xSemaphoreGive(xSerialMutex);
+            }
+        }
+        else if (type == "servo_angle")
+        {
+            set_servo_angle(value);
+            if (xSemaphoreTake(xSerialMutex, portMAX_DELAY)) {
+                Serial.printf(">> [WEB] Chinh goc Servo: %d do\n", value);
+                xSemaphoreGive(xSerialMutex);
+            }
         }
     }
 }
@@ -193,9 +201,7 @@ void task_webserver(void *pvParameters)
 {
     Serial.println(">> Web Server Task Started! Cho mang 1 giay...");
 
-    // khởi tạo đèn led
-    pinMode(18, OUTPUT);
-    digitalWrite(18, LOW);
+    
 
     // KHOÁ CHẶT Ở ĐÂY: Cho phép cả chế độ WIFI_AP_STA (Smart Mode) đi qua
     while (WiFi.status() != WL_CONNECTED && WiFi.getMode() != WIFI_AP && WiFi.getMode() != WIFI_AP_STA)

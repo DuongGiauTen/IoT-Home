@@ -325,3 +325,55 @@ document.getElementById("settingsForm").addEventListener("submit", function (e) 
     Send_Data(settingsJSON);
     alert("✅ Cấu hình đã được gửi xuống ESP32!");
 });
+
+// ==================== ĐIỀU KHIỂN THIẾT BỊ ====================
+
+function sendModeState(isManual) {
+    const modeText = document.getElementById("modeStatus");
+    const neoCard = document.getElementById("neoCard");
+    const servoCard = document.getElementById("servoCard");
+
+    if (isManual) {
+        modeText.innerText = "MANUAL";
+        modeText.style.color = "#F44336";
+        // Mở khóa các nút điều khiển thủ công
+        neoCard.style.opacity = "1";
+        neoCard.style.pointerEvents = "auto";
+        servoCard.style.opacity = "1";
+        servoCard.style.pointerEvents = "auto";
+    } else {
+        modeText.innerText = "AUTO";
+        modeText.style.color = "#9C27B0";
+        // Khóa các nút điều khiển thủ công
+        neoCard.style.opacity = "0.5";
+        neoCard.style.pointerEvents = "none";
+        servoCard.style.opacity = "0.5";
+        servoCard.style.pointerEvents = "none";
+    }
+
+    const data = JSON.stringify({
+        page: "device_control",
+        type: "mode",
+        value: isManual ? 0 : 1 // 1 = Auto, 0 = Manual
+    });
+    Send_Data(data);
+}
+
+function sendNeoBrightness(value) {
+    document.getElementById("neoValue").innerText = value;
+    const data = JSON.stringify({
+        page: "device_control",
+        type: "neo_pwm",
+        value: parseInt(value)
+    });
+    Send_Data(data);
+}
+
+function sendServoState(isOn) {
+    const data = JSON.stringify({
+        page: "device_control",
+        type: "servo_angle",
+        value: isOn ? 180 : 0 // Bật = quay 180 độ, Tắt = quay về 0 độ
+    });
+    Send_Data(data);
+}
