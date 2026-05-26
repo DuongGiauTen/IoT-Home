@@ -33,6 +33,7 @@ Kiến trúc chung: `Node1 ---> coreIoT_Server ---> Node2`
 ### 2.4. Cổng Web và cấu hình
 - Web server phục vụ giao diện trên `index.html`, `script.js`, `styles.css` cùng thư viện `raphael.min.js` và `justgage.js`.
 - Hỗ trợ lưu cấu hình WiFi, device ID, token, server và port qua giao diện web.
+- Điều chỉnh độ sáng đèn sười, động cơ để đảo trứng
 - Hỗ trợ cập nhật firmware OTA bằng **ElegantOTA**.
 
 ### 2.5. Kết nối Cloud (ThingsBoard)
@@ -40,13 +41,9 @@ Kiến trúc chung: `Node1 ---> coreIoT_Server ---> Node2`
 - Gửi telemetry:
   - `temperature`
   - `humidity`
-  - `auto_mode`
   - `heater_pwm`
   - `servo_angle`
-- Nhận lệnh RPC từ Cloud:
-  - `set_mode` → chuyển chế độ Auto / Manual
-  - `set_heater` → điều chỉnh PWM đèn sưởi
-  - `set_servo` → điều chỉnh góc servo đảo trứng
+
 
 ## 3. Phần cứng và môi trường
 
