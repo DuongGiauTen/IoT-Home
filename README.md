@@ -34,10 +34,7 @@ Kiến trúc luồng truyền thông giao tiếp chéo (Cross-Communication Loop
 ### 2.5. Kết nối Cloud (ThingsBoard)
 - Sử dụng thư viện `ThingsBoard` và `Arduino_MQTT_Client`.
 - **Nhận dữ liệu (RPC Callbacks)**: Đăng ký lắng nghe trực tiếp từ Cloud thông qua các hàm `processUpdateTemp` và `processUpdateHumi` để bắt gói tin môi trường từ Node 1 dội về.
-- **Phát lệnh từ xa (Command Telemetry)**: Khi có thao tác tương tác từ giao diện Web Node 2, tác vụ CoreIoT lập tức bắt sự kiện và xuất bản các chuỗi điều khiển có tiền tố lệnh lên Cloud:
-  - `cmd_toggle_mode` (Yêu cầu đảo chế độ Auto/Manual của lò ấp)
-  - `cmd_toggle_heater` (Yêu cầu tăng/giảm công suất đèn sưởi lò ấp)
-  - `cmd_toggle_servo` (Yêu cầu cưỡng bức góc khay đảo trứng)
+
 
 ## 3. Phần cứng và môi trường
 
