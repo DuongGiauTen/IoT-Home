@@ -6,9 +6,9 @@
 
 Dự án gồm hai node chính:
 - **Node1**: node thu dữ liệu và điều khiển. Đây là node đang thực thi trong repository này.
-- **Node1.2**: node nhận dữ liệu, nằm ở phía đầu cuối/kế thừa của hệ thống.
+- **Node2**: node nhận dữ liệu, nằm ở phía đầu cuối/kế thừa của hệ thống.
 
-Kiến trúc chung: `Node1 ---> coreIoT_Server ---> Node1.2`
+Kiến trúc chung: `Node1 ---> coreIoT_Server ---> Node2`
 
 ## 2. Kiến trúc phần mềm và tính năng chính
 
